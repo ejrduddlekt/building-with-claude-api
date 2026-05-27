@@ -1,0 +1,14 @@
+[
+  {
+    "task": "Parse an AWS CloudWatch log entry and extract the timestamp, log level, and message. Return the extracted values as a dictionary.",
+    "format": "python"
+  },
+  {
+    "task": "Create a JSON configuration object for an AWS Lambda function that specifies the function name, runtime (Python 3.11), memory size (256 MB), timeout (30 seconds), and an environment variable for the database URL.",
+    "format": "json"
+  },
+  {
+    "task": "Write a regex pattern that matches valid AWS S3 bucket names (lowercase letters, numbers, hyphens, 3-63 characters long, starting and ending with a letter or number).",
+    "format": "regex"
+  }
+]

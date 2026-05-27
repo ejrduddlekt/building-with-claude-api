@@ -1,0 +1,17 @@
+[
+  {
+    "task": "Parse an AWS CloudFormation template and extract all EC2 instance logical IDs",
+    "format": "python",
+    "solution_criteria": "Function should accept a CloudFormation JSON string/dict, iterate through Resources, identify all resources with Type 'AWS::EC2::Instance', and return a list of their logical IDs. Should handle empty resources gracefully."
+  },
+  {
+    "task": "Create an AWS Lambda execution role trust policy JSON document",
+    "format": "json",
+    "solution_criteria": "JSON object must have a 'Version' field set to '2012-10-17', a 'Statement' array with one object containing Action 'sts:AssumeRole', Effect 'Allow', and Principal with Service 'lambda.amazonaws.com'. Structure must be valid JSON."
+  },
+  {
+    "task": "Extract AWS IAM policy ARNs from a formatted policy string using regex",
+    "format": "regex",
+    "solution_criteria": "Regex pattern must match full AWS ARN format for IAM policies (arn:aws:iam::account-id:policy/policy-name or similar variants), capture the complete ARN, and not match invalid ARN patterns. Should work with test cases containing multiple ARNs."
+  }
+]

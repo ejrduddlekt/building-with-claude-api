@@ -1,0 +1,67 @@
+[
+  {
+    "output": "\nimport json\nimport sys\n\ndef extract_ec2_instances(template):\n    if isinstance(template, str):\n        template = json.loads(template)\n    \n    ec2_instances = []\n    \n    if 'Resources' in template:\n        for logical_id, resource in template['Resources'].items():\n            if resource.get('Type') == 'AWS::EC2::Instance':\n                ec2_instances.append(logical_id)\n    \n    return ec2_instances\n\nif __name__ == '__main__':\n    template_input = sys.stdin.read()\n    result = extract_ec2_instances(template_input)\n    print(json.dumps(result))\n",
+    "test_case": {
+      "task": "Parse an AWS CloudFormation template and extract all EC2 instance logical IDs",
+      "format": "python",
+      "solution_criteria": "Function should accept a CloudFormation JSON string/dict, iterate through Resources, identify all resources with Type 'AWS::EC2::Instance', and return a list of their logical IDs. Should handle empty resources gracefully."
+    },
+    "score": 8.0,
+    "model_score": 6,
+    "syntax_score": 10,
+    "reasoning": "The solution correctly implements the core requirement of extracting EC2 instance logical IDs from CloudFormation templates. The logic is sound and handles the basic happy path well. However, the implementation lacks robust error handling and defensive programming practices. The code would fail ungracefully on invalid JSON input or malformed templates. For a production-grade solution handling external input (as indicated by reading from stdin), these error cases should be explicitly handled. The solution would benefit from try-except blocks, input validation, and clearer handling of edge cases.",
+    "strengths": [
+      "Correctly identifies EC2 instances by checking for 'AWS::EC2::Instance' Type and extracts logical IDs as required",
+      "Handles both string and dictionary inputs by attempting JSON parsing, making it flexible for different input formats",
+      "Simple, readable implementation that cleanly separates the core logic from CLI handling"
+    ],
+    "weaknesses": [
+      "No error handling for malformed JSON input - will raise an uncaught JSONDecodeError if template_input is invalid JSON",
+      "Lacks validation that 'Resources' key exists or is properly formatted before iteration, though the 'in' check mitigates this partially",
+      "No handling of edge cases such as None values, missing Type keys, or non-string logical IDs that could cause unexpected behavior"
+    ]
+  },
+  {
+    "output": "\n{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Effect\": \"Allow\",\n      \"Principal\": {\n        \"Service\": \"lambda.amazonaws.com\"\n      },\n      \"Action\": \"sts:AssumeRole\"\n    }\n  ]\n}\n",
+    "test_case": {
+      "task": "Create an AWS Lambda execution role trust policy JSON document",
+      "format": "json",
+      "solution_criteria": "JSON object must have a 'Version' field set to '2012-10-17', a 'Statement' array with one object containing Action 'sts:AssumeRole', Effect 'Allow', and Principal with Service 'lambda.amazonaws.com'. Structure must be valid JSON."
+    },
+    "score": 10.0,
+    "model_score": 10,
+    "syntax_score": 10,
+    "reasoning": "The solution is a well-formed, standard AWS Lambda execution role trust policy that meets all specified criteria. It contains the exact Version, Statement structure, Action, Effect, and Principal fields required for Lambda to assume the role. The JSON is syntactically valid and follows AWS best practices. While optional enhancements like Condition constraints could be added for specific use cases, the core requirement is fully satisfied.",
+    "strengths": [
+      "Perfect structure and format - all required fields are present and correctly named",
+      "Correct AWS service principal (lambda.amazonaws.com) enabling Lambda to assume the role",
+      "Valid JSON syntax with proper nesting, quotes, and formatting"
+    ],
+    "weaknesses": [
+      "Missing 'Condition' field - no constraints on when the role can be assumed (could benefit from optional conditions in production scenarios)",
+      "No documentation or comments explaining the policy's purpose"
+    ]
+  },
+  {
+    "output": "\nimport re\nimport json\nimport sys\n\ndef extract_iam_policy_arns(policy_string):\n    # Pattern to match AWS ARNs in IAM policies\n    # ARNs follow the format: arn:partition:service:region:account-id:resource\n    arn_pattern = r'arn:aws[a-z\\-]*:[a-z0-9\\-]*:[a-z0-9\\-]*:[0-9]*:[a-z0-9\\-/*]*'\n    \n    arns = re.findall(arn_pattern, policy_string, re.IGNORECASE)\n    return arns\n\nif __name__ == \"__main__\":\n    # Example IAM policy string\n    policy_string = '''\n    {\n        \"Version\": \"2012-10-17\",\n        \"Statement\": [\n            {\n                \"Effect\": \"Allow\",\n                \"Action\": \"s3:GetObject\",\n                \"Resource\": \"arn:aws:s3:::my-bucket/*\"\n            },\n            {\n                \"Effect\": \"Allow\",\n                \"Action\": \"lambda:InvokeFunction\",\n                \"Resource\": \"arn:aws:lambda:us-east-1:123456789012:function:my-function\"\n            },\n            {\n                \"Effect\": \"Allow\",\n                \"Action\": \"iam:GetRole\",\n                \"Resource\": \"arn:aws:iam::123456789012:role/my-role\"\n            }\n        ]\n    }\n    '''\n    \n    arns = extract_iam_policy_arns(policy_string)\n    print(json.dumps(arns, indent=2))\n",
+    "test_case": {
+      "task": "Extract AWS IAM policy ARNs from a formatted policy string using regex",
+      "format": "regex",
+      "solution_criteria": "Regex pattern must match full AWS ARN format for IAM policies (arn:aws:iam::account-id:policy/policy-name or similar variants), capture the complete ARN, and not match invalid ARN patterns. Should work with test cases containing multiple ARNs."
+    },
+    "score": 2.0,
+    "model_score": 4,
+    "syntax_score": 0,
+    "reasoning": "While the solution demonstrates understanding of IAM policies and regex fundamentals, the regex pattern is fundamentally flawed for production use. It works on the specific test cases provided by coincidence, but fails the broader criteria of matching the 'full AWS ARN format' and handling 'variants'. A more robust pattern should accommodate the complete ARN structure (arn:[partition]:[service]:[region]:[account-id]:[resource]), support underscores and dots in resource names, handle partition variations (aws, aws-cn, aws-us-gov), and account for service-specific formats where region or account-id may be empty. The pattern needs significant revision to be reliable for real-world IAM policy extraction.",
+    "strengths": [
+      "The regex pattern correctly captures the basic ARN structure (arn:aws:service:region:account:resource) and successfully extracts all three example ARNs from the test policy",
+      "The solution includes a practical example with multiple ARN variants (S3, Lambda, IAM) demonstrating understanding of different resource types",
+      "The code is well-structured with clear comments explaining the ARN format components"
+    ],
+    "weaknesses": [
+      "The regex pattern is incomplete and doesn't match the full ARN specification. AWS ARN format is 'arn:partition:service:region:account-id:resource-type/resource-id' but the pattern ends abruptly at 'account-id:' without properly capturing the resource-type and resource-id segments (missing proper handling of colons, slashes, and resource naming conventions)",
+      "The pattern uses overly restrictive character classes (e.g., [a-z0-9\\-/*]*) that fail to match valid ARN characters like underscores, dots, and uppercase letters in resource names. For example, it won't match 'arn:aws:iam::123456789012:role/My_Role-Name.ext'",
+      "The regex doesn't account for important ARN variations: wildcard-only resources (arn:aws:s3:::*), service-specific formats (arn:aws:s3:::bucket-name without colons after account), or resource paths with multiple segments (arn:aws:lambda:region:account:function:layer:name:version)"
+    ]
+  }
+]

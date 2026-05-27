@@ -1,0 +1,64 @@
+[
+  {
+    "output": "\nimport re\nimport json\n\ndef parse_cloudwatch_log(log_entry):\n    pattern = r'(?P<timestamp>\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)\\s+(?P<log_level>\\w+)\\s+(?P<message>.*)'\n    match = re.search(pattern, log_entry)\n    if match:\n        return match.groupdict()\n    return None\n",
+    "test_case": {
+      "task": "Parse an AWS CloudWatch log entry and extract the timestamp, log level, and message. Return the extracted values as a dictionary.",
+      "format": "python"
+    },
+    "score": 8.0,
+    "model_score": 6,
+    "syntax_score": 10,
+    "reasoning": "The solution directly addresses the core task of parsing CloudWatch logs and returning a dictionary. The regex approach is reasonable, but the pattern assumes a very specific log format that may not cover real-world CloudWatch variations. CloudWatch logs can have multiple timestamp formats (epoch time, custom formats), structured JSON payloads, or logs without explicit log levels. The solution would fail silently on these common cases. Additionally, no docstring or usage examples are provided to clarify assumptions about input format. The code is minimal but could benefit from handling edge cases and documenting the expected format constraints.",
+    "strengths": [
+      "Correctly implements regex pattern matching for standard CloudWatch log format with ISO 8601 timestamp",
+      "Returns data as a dictionary as requested, with appropriate named capture groups",
+      "Includes null check to handle non-matching entries gracefully"
+    ],
+    "weaknesses": [
+      "Regex pattern is too rigid and assumes specific CloudWatch format - doesn't handle common variations like different timestamp formats, missing log levels, or structured JSON logs",
+      "No error handling for edge cases (empty strings, malformed input, None values)",
+      "Missing documentation/examples showing expected input/output format and supported log formats"
+    ]
+  },
+  {
+    "output": "\nimport json\n\nconfig = {\n    \"FunctionName\": \"my-lambda-function\",\n    \"Runtime\": \"python3.11\",\n    \"MemorySize\": 256,\n    \"Timeout\": 30,\n    \"Environment\": {\n        \"Variables\": {\n            \"DATABASE_URL\": \"postgresql://user:password@localhost/dbname\"\n        }\n    }\n}\n\nprint(json.dumps(config, indent=2))\n",
+    "test_case": {
+      "task": "Create a JSON configuration object for an AWS Lambda function that specifies the function name, runtime (Python 3.11), memory size (256 MB), timeout (30 seconds), and an environment variable for the database URL.",
+      "format": "json"
+    },
+    "score": 3.0,
+    "model_score": 6,
+    "syntax_score": 0,
+    "reasoning": "The solution demonstrates correct understanding of AWS Lambda configuration structure and includes all required fields with appropriate values. However, there are two significant issues: (1) The task explicitly requests a JSON configuration object, but the solution provides Python code that prints JSON rather than delivering JSON directly, and (2) The hardcoded database credentials represent a security vulnerability. The localhost connection string is also impractical for actual AWS deployment. While functionally correct for the configuration structure itself, these issues prevent it from being a complete, production-ready solution.",
+    "strengths": [
+      "Correctly implements all required AWS Lambda configuration parameters (FunctionName, Runtime, MemorySize, Timeout, Environment variables)",
+      "Uses proper AWS Lambda API structure with nested Environment.Variables object for database URL",
+      "Provides a complete, executable Python solution that demonstrates the configuration"
+    ],
+    "weaknesses": [
+      "Solution is in Python code format rather than pure JSON as specified in the expected format requirement",
+      "Includes hardcoded database credentials in plaintext, which is a security anti-pattern; should use AWS Secrets Manager or Systems Manager Parameter Store",
+      "Uses localhost connection string which is not valid for AWS Lambda execution environment"
+    ]
+  },
+  {
+    "output": "\n^[a-z0-9]([a-z0-9-]{1,61}[a-z0-9])?$\n",
+    "test_case": {
+      "task": "Write a regex pattern that matches valid AWS S3 bucket names (lowercase letters, numbers, hyphens, 3-63 characters long, starting and ending with a letter or number).",
+      "format": "regex"
+    },
+    "score": 7.0,
+    "model_score": 4,
+    "syntax_score": 10,
+    "reasoning": "The regex has a critical flaw in its length validation logic. By making the middle section optional with `?`, the pattern can match strings like 'ab' (2 characters), which violates AWS S3's minimum 3-character requirement. The pattern should be: `^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9]|[a-z0-9])?$` or simplified to `^[a-z0-9]([a-z0-9-]*[a-z0-9])?$` with length validation, or better yet: `^[a-z0-9]{1}[a-z0-9-]{1,61}[a-z0-9]{1}$|^[a-z0-9]{3,63}$` to handle both 3-63 character names correctly. The pattern correctly handles starting/ending constraints and hyphen placement but fails on the length requirement.",
+    "strengths": [
+      "Correctly enforces the 3-63 character length requirement through the pattern structure",
+      "Properly requires bucket names to start and end with lowercase letters or numbers",
+      "Correctly allows hyphens only in the middle positions, not at start or end"
+    ],
+    "weaknesses": [
+      "The optional group `([a-z0-9-]{1,61}[a-z0-9])?` creates an issue: it allows matching 1-2 character bucket names (e.g., 'a' or 'ab'), which violates the minimum 3-character requirement",
+      "Missing documentation or explanation of how the pattern enforces the constraints, though minimality is a stated criterion"
+    ]
+  }
+]
