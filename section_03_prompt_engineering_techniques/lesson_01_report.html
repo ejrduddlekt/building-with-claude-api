@@ -1,0 +1,263 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Evaluation Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .header {
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+        .summary-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .stat-box {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            min-width: 200px;
+            padding: 15px;
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        table {
+            border-collapse: collapse;
+            margin-top: 20px;
+            width: 100%;
+        }
+        th {
+            background-color: #4a4a4a;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        td {
+            border-bottom: 1px solid #ddd;
+            padding: 10px;
+            vertical-align: top;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        pre {
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, "Courier New", monospace;
+            font-size: 14px;
+            margin: 0;
+            overflow-x: auto;
+            padding: 10px;
+            white-space: pre-wrap;
+        }
+        .score {
+            border-radius: 3px;
+            display: inline-block;
+            font-weight: bold;
+            padding: 5px 10px;
+        }
+        .score-high {
+            background-color: #c8e6c9;
+            color: #2e7d32;
+        }
+        .score-medium {
+            background-color: #fff9c4;
+            color: #f57f17;
+        }
+        .score-low {
+            background-color: #ffcdd2;
+            color: #c62828;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Prompt Evaluation Report</h1>
+        <div class="summary-stats">
+            <div class="stat-box">
+                <div>Total Test Cases</div>
+                <div class="stat-value">3</div>
+            </div>
+            <div class="stat-box">
+                <div>Average Score</div>
+                <div class="stat-value">3.0 / 10</div>
+            </div>
+            <div class="stat-box">
+                <div>Pass Rate (&ge;7)</div>
+                <div class="stat-value">0.0%</div>
+            </div>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Scenario</th>
+                <th>Prompt Inputs</th>
+                <th>Solution Criteria</th>
+                <th>Output</th>
+                <th>Score</th>
+                <th>Reasoning</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+            <tr>
+                <td>Testing with a lightweight endurance athlete (runner) with high caloric needs and no dietary restrictions - verifies the prompt calculates appropriate portions and meal frequency for stamina-based sports</td>
+                <td><strong>height:</strong> 178<br><strong>weight:</strong> 68<br><strong>goal:</strong> Build endurance and stamina for marathon training<br><strong>restrictions:</strong> None</td>
+                <td>- Meal plan includes 4-5 eating occasions (breakfast, snack, lunch, snack, dinner) to support high caloric needs and sustained energy<br>- Total daily caloric intake is between 2800-3200 calories, appropriate for a 68kg endurance athlete<br>- Meals emphasize complex carbohydrates (50-60% of calories) and adequate protein (1.6g per kg body weight) for muscle recovery<br>- Portion sizes and meal timing are specified to optimize fuel availability before and after training sessions</td>
+                <td class="output"><pre># Marathon Training Nutrition Plan
+
+## Daily Calorie Target
+**~2,800-3,200 calories** (depending on training intensity)
+- Your BMR is ~1,700; marathon training adds 1,100-1,500 extra calories burned
+
+## Macronutrient Breakdown
+
+| Macro | Daily Target | Purpose |
+|-------|--------------|---------|
+| **Carbs** | 55-60% (385-480g) | Primary fuel for endurance |
+| **Protein** | 15-20% (105-160g) | Muscle repair &amp; recovery |
+| **Fat** | 20-25% (62-89g) | Energy &amp; hormone support |
+
+## Specific Foods to Prioritize
+
+**Carbohydrates (complex preferred):**
+- Oats, brown rice, whole grain bread, sweet potatoes, quinoa, pasta
+- Fruits: bananas, berries, dates (great pre/post-run)
+
+**Protein:**
+- Lean meats, fish, eggs, Greek yogurt, legumes, cottage cheese
+
+**Healthy Fats:**
+- Nuts, avocado, olive oil, fatty fish (salmon)
+
+**Hydration &amp; Electrolytes:**
+- 3-4 liters water daily
+- Sports drinks for runs &gt;90 minutes
+
+## Timing Tips
+- **Pre-run (2-3 hrs before):** Oats + banana + nut butter
+- **Post-run (within 30 mins):** Protein + carbs (chicken + rice, or protein shake + fruit)
+- **Long run days:** Extra 500-800 calories
+
+Would you like specific meal examples or a sample day?</pre></td>
+                <td><span class="score score-low">3</span></td>
+                <td>The solution violates all three mandatory requirements. While it correctly calculates caloric needs and provides sound macronutrient guidance, it does not deliver what was explicitly requested: a compact 1-day meal plan. The task asks for a meal plan (implying specific meals), but the solution only provides general nutritional guidance and food categories. It lacks: (1) a structured daily meal schedule with 4-5 eating occasions, (2) exact portion sizes for foods, and (3) specific meal timing integrated into a coherent day plan. The closing question &#x27;Would you like specific meal examples or a sample day?&#x27; actually acknowledges that the solution is incomplete. This is a framework/template rather than an actual meal plan.</td>
+            </tr>
+            
+            <tr>
+                <td>Testing with a heavy strength athlete (weightlifter) with multiple dietary restrictions (vegetarian + gluten-free) - evaluates the prompt&#x27;s ability to balance protein requirements with constraint limitations while maintaining meal plan quality</td>
+                <td><strong>height:</strong> 178<br><strong>weight:</strong> 85<br><strong>goal:</strong> muscle gain and strength development<br><strong>restrictions:</strong> vegetarian, gluten-free</td>
+                <td>- Meal plan includes minimum 130g protein per day (1.5g per kg body weight) sourced from vegetarian options<br>- All meals and snacks are certified gluten-free or naturally gluten-free with no cross-contamination risks<br>- Plan contains exactly 4 meals/snacks distributed throughout the day with caloric intake supporting muscle gain (~2800-3000 kcal)<br>- Meals are practical and compact, requiring minimal preparation time while supporting heavy strength training recovery</td>
+                <td class="output"><pre># Nutrition Plan for Muscle &amp; Strength Gain
+
+## Caloric Needs
+- **TDEE**: ~2,500-2,700 calories/day
+- **Muscle gain target**: +300-500 calories above maintenance
+- **Daily intake**: ~2,800-3,200 calories
+
+## Protein Priority
+- **Target**: 1.6-2.2g per kg bodyweight = **136-187g daily**
+- This is critical for muscle development on a vegetarian diet
+
+## Best Protein Sources (Vegetarian, Gluten-Free)
+- Greek yogurt &amp; cottage cheese
+- Eggs &amp; egg whites
+- Legumes (lentils, chickpeas, black beans)
+- Tofu &amp; tempeh
+- Quinoa
+- Nuts &amp; seeds (peanut butter, hemp seeds)
+- Protein powder (whey, pea, or rice-based)
+
+## Sample Daily Breakdown
+| Meal | Examples |
+|------|----------|
+| **Breakfast** | Eggs, oats (certified GF), berries, nut butter |
+| **Snack** | Greek yogurt, granola (GF), seeds |
+| **Lunch** | Quinoa, roasted chickpeas, veggies, tahini |
+| **Snack** | Protein shake, banana, almond butter |
+| **Dinner** | Tofu/tempeh stir-fry, rice, vegetables |
+
+## Other Nutrients
+- **Carbs**: 5-6g per kg = 425-510g daily (fuel for training)
+- **Fats**: 0.8-1.2g per kg = 68-102g daily
+- **Creatine monohydrate** supplement (vegetarians have lower baseline)
+
+**Pair with consistent resistance training for best results.**</pre></td>
+                <td><span class="score score-low">3</span></td>
+                <td>The solution fails to meet all three mandatory requirements. While it demonstrates strong nutritional knowledge and addresses the athlete&#x27;s needs conceptually, it provides only a framework rather than an actionable meal plan. The task explicitly requires &#x27;exact foods, portions, and timing&#x27; - the solution provides only meal categories with generic examples. A &#x27;daily caloric total&#x27; is required but only a range is given. A &#x27;macronutrient breakdown&#x27; must be specific daily totals, not per-kg calculations. The solution reads as educational guidance rather than a concrete 1-day meal plan. Additionally, the meal structure lists 5 items (breakfast, snack, lunch, snack, dinner) rather than exactly 4 meals/snacks as specified in criteria.</td>
+            </tr>
+            
+            <tr>
+                <td>Testing with an athlete in a cutting phase for weight loss with specific height/weight metrics showing low BMI - assesses whether the prompt appropriately adjusts caloric intake downward while maintaining athletic performance nutrition</td>
+                <td><strong>height:</strong> 178<br><strong>weight:</strong> 68<br><strong>goal:</strong> cutting phase for weight loss while maintaining athletic performance<br><strong>restrictions:</strong> none</td>
+                <td>- Meal plan provides caloric intake in the range of 2000-2300 calories (approximately 10-15% below estimated maintenance for given metrics)<br>- Protein content is at least 1.6g per kg of body weight (≥109g) to preserve muscle mass during cutting phase<br>- All meals are compact and listed in a single day format with clear timing and portion sizes<br>- Macronutrient distribution supports athletic performance with balanced carbohydrates and healthy fats alongside adequate protein</td>
+                <td class="output"><pre># Nutrition Plan for Cutting Phase
+
+## Caloric Target
+- **Daily intake**: ~2,200-2,400 calories (10-15% deficit)
+- **BMR** (estimated): ~1,700 cal | **TDEE**: ~2,550-2,700 cal
+
+## Macronutrient Breakdown
+
+| Macro | Target | Notes |
+|-------|--------|-------|
+| **Protein** | 130-150g | Preserve muscle; ~1.9-2.2g/kg |
+| **Carbs** | 225-250g | Time around workouts |
+| **Fat** | 65-75g | ~25-30% of calories |
+
+## Food Priorities
+
+**Protein Sources** (aim for 25-35g per meal)
+- Chicken breast, lean beef, fish
+- Eggs, Greek yogurt
+- Cottage cheese, protein powder
+
+**Carbs** (prioritize around training)
+- Oats, rice, sweet potatoes
+- Whole grain bread, pasta
+- Fruits (berries, bananas)
+
+**Healthy Fats**
+- Olive oil, avocado, nuts
+- Fatty fish (salmon, mackerel)
+- Nut butters (portion-controlled)
+
+**Vegetables** (unlimited, high volume/low cal)
+- Broccoli, spinach, peppers
+- Brussels sprouts, asparagus
+
+## Key Tips
+✓ Eat in a **moderate deficit** (not aggressive)  
+✓ **Prioritize protein** at every meal  
+✓ Time carbs **around workouts**  
+✓ Stay hydrated (3-4L water daily)  
+✓ Get adequate sleep (7-9 hours)  
+✓ Track intake for 2-3 weeks to verify progress
+
+Would you like a sample meal plan or adjustments?</pre></td>
+                <td><span class="score score-low">3</span></td>
+                <td>While the solution demonstrates strong nutritional knowledge with accurate caloric calculations, appropriate protein targets, and sound macronutrient principles, it fundamentally fails to deliver what was requested: a compact, concise 1-day meal plan. The task explicitly requires &#x27;meals with exact foods, portions, and timing&#x27; as a mandatory requirement. The solution provides only general guidance and food categories without specifying actual meals (breakfast, lunch, dinner, snacks), exact portion sizes, or timing. It ends with &#x27;Would you like a sample meal plan&#x27; - indicating the actual meal plan was never provided. This is an automatic failure against mandatory requirements.</td>
+            </tr>
+            
+        </tbody>
+    </table>
+</body>
+</html>

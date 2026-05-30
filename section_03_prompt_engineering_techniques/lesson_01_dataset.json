@@ -1,0 +1,50 @@
+[
+  {
+    "prompt_inputs": {
+      "height": "178",
+      "weight": "68",
+      "goal": "Build endurance and stamina for marathon training",
+      "restrictions": "None"
+    },
+    "solution_criteria": [
+      "Meal plan includes 4-5 eating occasions (breakfast, snack, lunch, snack, dinner) to support high caloric needs and sustained energy",
+      "Total daily caloric intake is between 2800-3200 calories, appropriate for a 68kg endurance athlete",
+      "Meals emphasize complex carbohydrates (50-60% of calories) and adequate protein (1.6g per kg body weight) for muscle recovery",
+      "Portion sizes and meal timing are specified to optimize fuel availability before and after training sessions"
+    ],
+    "task_description": "Write a compact, concise 1 day meal plan for a single athlete",
+    "scenario": "Testing with a lightweight endurance athlete (runner) with high caloric needs and no dietary restrictions - verifies the prompt calculates appropriate portions and meal frequency for stamina-based sports"
+  },
+  {
+    "prompt_inputs": {
+      "height": "178",
+      "weight": "85",
+      "goal": "muscle gain and strength development",
+      "restrictions": "vegetarian, gluten-free"
+    },
+    "solution_criteria": [
+      "Meal plan includes minimum 130g protein per day (1.5g per kg body weight) sourced from vegetarian options",
+      "All meals and snacks are certified gluten-free or naturally gluten-free with no cross-contamination risks",
+      "Plan contains exactly 4 meals/snacks distributed throughout the day with caloric intake supporting muscle gain (~2800-3000 kcal)",
+      "Meals are practical and compact, requiring minimal preparation time while supporting heavy strength training recovery"
+    ],
+    "task_description": "Write a compact, concise 1 day meal plan for a single athlete",
+    "scenario": "Testing with a heavy strength athlete (weightlifter) with multiple dietary restrictions (vegetarian + gluten-free) - evaluates the prompt's ability to balance protein requirements with constraint limitations while maintaining meal plan quality"
+  },
+  {
+    "prompt_inputs": {
+      "height": "178",
+      "weight": "68",
+      "goal": "cutting phase for weight loss while maintaining athletic performance",
+      "restrictions": "none"
+    },
+    "solution_criteria": [
+      "Meal plan provides caloric intake in the range of 2000-2300 calories (approximately 10-15% below estimated maintenance for given metrics)",
+      "Protein content is at least 1.6g per kg of body weight (\u2265109g) to preserve muscle mass during cutting phase",
+      "All meals are compact and listed in a single day format with clear timing and portion sizes",
+      "Macronutrient distribution supports athletic performance with balanced carbohydrates and healthy fats alongside adequate protein"
+    ],
+    "task_description": "Write a compact, concise 1 day meal plan for a single athlete",
+    "scenario": "Testing with an athlete in a cutting phase for weight loss with specific height/weight metrics showing low BMI - assesses whether the prompt appropriately adjusts caloric intake downward while maintaining athletic performance nutrition"
+  }
+]
